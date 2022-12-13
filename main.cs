@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 
 class Program {
-  public static void Main (string[] args) {
-    string[] cmds = System.IO.File.ReadAllLines(@"input.txt");
-    List<int> pipelineAtStart = new List<int>();
-    
+  public static void CalculatePipeline(string[] cmds, ref List<int> pipelineAtStart) {
     int x = 1;
     int cycle = 0;
     pipelineAtStart.Add(x);
@@ -24,6 +21,13 @@ class Program {
         //cycle++;
       }
     }
+  }
+  public static void Main (string[] args) {
+    string[] cmds = System.IO.File.ReadAllLines(@"input.txt");
+    List<int> pipelineAtStart = new List<int>();
+
+    CalculatePipeline(cmds, ref pipelineAtStart);
+    
     int[] cycles = {20, 60, 100, 140, 180, 220};
     for(int i=0; i<pipelineAtStart.Count; i++) {
       Console.WriteLine("{0}:\t{1}", i+1, pipelineAtStart[i]);
@@ -35,6 +39,21 @@ class Program {
       sumStrength += strength; 
     }
     Console.WriteLine("Strength: {0}", sumStrength);
+
+    for (int i=0; i<6; i++) {
+      string row = "";
+      for (int j=0; j<40; j++) {
+        //Console.WriteLine(40*i + j);
+        int spriteValue = pipelineAtStart[40*i + j];
+        int currentPixel = j;//40*i + j;
+        if (Math.Abs(spriteValue - currentPixel) < 2) {
+          row += "#";
+        } else {
+          row += ".";
+        }
+      }
+      Console.WriteLine(row);
+    }
     
   }
 }
